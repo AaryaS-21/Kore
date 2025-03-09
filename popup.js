@@ -285,7 +285,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const scoreValue = document.getElementById("bias-value")
     const scorevalforfact = document.getElementById("score-value")
     const scoreBar = document.getElementById("bias-bar")
+    const factBar = document.getElementById("score-bar")
     const scoreDescription = document.getElementById("bias-description-value")
+
+    const factDescription = document.getElementById("score-description")
 
     const content1 = document.getElementById("claim-analysis")
     const content2 = document.getElementById("claim-analysis-1")
@@ -302,8 +305,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     scoreValue.textContent = `${score}/100`
 
+    factscore = factscore * 10
     factscore = Math.round(factscore)
     scorevalforfact.textContent = `${factscore}/100`
+
+    if (factscore < 33) {
+      factBar.style.background = "linear-gradient(90deg, #ef4444, #f59e0b)"
+      factDescription.textContent = "Mostly False"
+    } else if (factscore < 66) {
+      factBar.style.background = "linear-gradient(90deg, #f59e0b, #10b981 " + factscore + "%)"
+      factDescription.textContent = "Neutral"
+    } else {
+      factBar.style.background = "linear-gradient(90deg, #10b981, #4361ee " + factscore + "%)"
+      factDescription.textContent = "Mostly True"
+    }
 
 
     content1.innerText = explaination
@@ -325,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
     scoreBar.style.width = "0%"
     setTimeout(() => {
       scoreBar.style.width = `${score}%`
+      factBar.style.width = `${factscore}%`
     }, 100)
   }
   //end of bitch
