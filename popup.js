@@ -286,7 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //console.log(analysis)
 
     const formattedAnalysis = analysis.replace(/\* /g, "•")
-    enterBiasDescription.innerText = formattedAnalysis
+    const formattedAnalysis2 = formattedAnalysis.replace(/\./g, "\n")
+    enterBiasDescription.innerText = formattedAnalysis2
 
     score = Math.round(score)
 

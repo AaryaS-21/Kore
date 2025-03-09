@@ -9,7 +9,7 @@ model = TFAutoModelForSequenceClassification.from_pretrained("d4data/bias-detect
 classifier = pipeline('text-classification', model=model, tokenizer=tokenizer)
 
 # API key
-john = ""
+john = "AIzaSyBayW14hX9zfUlM13VP--_fECh4tjQqR3M"
 
 def run(sentence):
     # Get bias classification result
