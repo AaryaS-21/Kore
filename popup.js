@@ -122,8 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // Hide loading overlay
         loadingOverlay.style.display = "none"
 
+        //data.fact-score, fact-explanation, references
+
         //data.score, data.label, data.analysis
-        updateBiasStuff(data.score, data.label, data.analysis)
+        //the stuff below is also to update facts
+        updateBiasStuff(data.score, data.label, data.analysis, data.factScore, data.factExplanation, data.references)
 
         // Update the UI with the received data
         //updateScore(data.score || 35)
@@ -278,10 +281,14 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   //start of bitch
-  function updateBiasStuff(score, label, analysis) {
+  function updateBiasStuff(score, label, analysis, factscore, explaination, references) {
     const scoreValue = document.getElementById("bias-value")
+    const scorevalforfact = document.getElementById("score-value")
     const scoreBar = document.getElementById("bias-bar")
     const scoreDescription = document.getElementById("bias-description-value")
+
+    const content1 = document.getElementById("claim-analysis")
+    const content2 = document.getElementById("claim-analysis-1")
 
     const enterBiasDescription = document.getElementById("bias-analysis-text")
 
@@ -294,6 +301,13 @@ document.addEventListener("DOMContentLoaded", () => {
     score = Math.round(score)
 
     scoreValue.textContent = `${score}/100`
+
+    factscore = Math.round(factscore)
+    scorevalforfact.textContent = `${factscore}/100`
+
+
+    content1.innerText = explaination
+    content2.innerText = references
 
     // Update color based on score
     if (score < 33) {
