@@ -279,14 +279,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     content1.innerText = explaination
-
+  
     let formattedRefs = "No references available.";
-
-    function convertToHyperlink(text) {
+  
+    function formatReferenceWithNumber(text, index) {
       const urlPattern = /(https?:\/\/[^\s]+)/g;
-
+  
       return text.replace(urlPattern, match => {
-        return `<a href="${match}" target="_blank" rel="noopener noreferrer" style="color:rgb(167, 201, 255);">${match}</a>`;
+        return `<span style="color:white;">[${index}]</span> <a href="${match}" target="_blank" rel="noopener noreferrer" style="color:rgb(167, 201, 255);">${match}</a>`;
       });
     }
     
@@ -294,9 +294,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (Array.isArray(references)) {
         formattedRefs = references
           .filter(ref => ref && ref.trim())
-          .map(ref => {
-            const linkified = convertToHyperlink(ref.trim());
-            return `<p style="margin-bottom: 20px;">${linkified}</p>`;
+          .map((ref, index) => {
+            const formatted = formatReferenceWithNumber(ref.trim(), index + 1);
+            return `<p style="margin-bottom: 20px;">${formatted}</p>`;
           })
           .join('');
       } 
@@ -304,16 +304,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const refsArray = references.split(/\n+/);
         formattedRefs = refsArray
           .filter(ref => ref && ref.trim())
-          .map(ref => {
-            const linkified = convertToHyperlink(ref.trim());
-            return `<p style="margin-bottom: 20px;">${linkified}</p>`;
+          .map((ref, index) => {
+            const formatted = formatReferenceWithNumber(ref.trim(), index + 1);
+            return `<p style="margin-bottom: 20px;">${formatted}</p>`;
           })
           .join('');
       }
       else if (typeof references === 'object') {
         try {
           const refsStr = JSON.stringify(references);
-          formattedRefs = `<p style="margin-bottom: 20px;">${convertToHyperlink(refsStr)}</p>`;
+          formattedRefs = `<p style="margin-bottom: 20px;">${formatReferenceWithNumber(refsStr, 1)}</p>`;
         } catch (e) {
           console.error("Could not format references object:", e);
         }

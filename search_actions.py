@@ -23,6 +23,7 @@ def fact_check_statement(claim: str, search_results: list):
     - Assign a factual accuracy score from 0 (completely false) to 10 (completely true).
     - Provide a concise explanation that includes in-text references like [1], [2] to support your reasoning.
     - Provide relevant background information to help understand the situation.
+    - If you are unable to locate sufficient reliable sources to verify the statement, clearly acknowledge this and provide an explanation. If a claim is widely recognized as common knowledge, indicate this.
 
     **Output Format (JSON):**
     {{
