@@ -494,4 +494,15 @@ h1 {
   margin-bottom: 10px;
 }
 
+.analysis-content {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
 
+.analysis-content.active {
+  padding: 0 16px 16px;
+  max-height: 200px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}

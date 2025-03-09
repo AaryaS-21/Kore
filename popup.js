@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
     header.setAttribute("aria-expanded", "false")
   })
 
-  //start of bitch
+  //start of stuff
   function updateBiasStuff(score, label, analysis, factscore, explaination, references) {
     const scoreValue = document.getElementById("bias-value")
     const scorevalforfact = document.getElementById("score-value")
@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
       factBar.style.width = `${factscore}%`
     }, 100)
   }
-  //end of bitch
+  //end of stuff
 
   // Function to update main score
   function updateScore(score) {
