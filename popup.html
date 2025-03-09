@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kore</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Home Screen -->
+    <div id="home-screen" class="screen active">
+      <div class="logo-container">
+        <!--
+        <div class="logo">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+            <circle cx="12" cy="12" r="10" fill="currentColor"/>
+            <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      -->
+        <h1 style="font-size: 36px;">Kore</h1>
+      </div>
+      
+      <div class="centered-logo">
+        <div class="logo logo-large">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+            <circle cx="12" cy="12" r="10" fill="currentColor"/>
+            <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      
+      <p class="tagline">Verify information with AI-powered fact checking</p>
+      
+      <div class="instructions">
+        <h2>How to use:</h2>
+        <ol>
+          <li>Highlight text on any webpage</li>
+          <li>Right-click and select "Check with Kore"</li>
+          <li>View the AI-powered analysis</li>
+        </ol>
+      </div>
+      
+      <button id="demo-button" class="primary-button">
+        <span>See Demo</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon">
+          <path d="m9 18 6-6-6-6"/>
+        </svg>
+      </button>
+      
+      <div class="theme-toggle">
+        <button id="theme-toggle-btn" class="icon-button" aria-label="Toggle dark mode">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen">
+      <div class="header">
+        <button id="back-button" class="icon-button" aria-label="Go back">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <h2>Fact Check Results</h2>
+        <div class="mini-logo">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+            <circle cx="12" cy="12" r="10" fill="currentColor"/>
+            <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      
+      <div class="source-info">
+        <div class="source-url" id="source-url">Source: example.com</div>
+        <div class="timestamp" id="timestamp">Just now</div>
+      </div>
+      
+      <div class="selected-text">
+        <p id="selected-text-content">"Global temperatures have not increased in the last decade, according to some scientists."</p>
+      </div>
+      
+      <div class="score-container">
+        <div class="score-label">
+          <span>Factual Score</span>
+          <span id="score-value">35/100</span>
+        </div>
+        <div class="score-bar-container">
+          <div class="score-bar" id="score-bar"></div>
+        </div>
+        <div class="score-description">
+          <span id="score-description">Mostly False</span>
+        </div>
+      </div>
+      
+      <div class="claims-container">
+        <h3 class="claims-title">Claims Identified</h3>
+        
+        <div class="claim-item" data-claim="1">
+          <div class="claim-header">
+            <div class="claim-indicator">
+              <div class="claim-score-bar" style="background: linear-gradient(90deg, #ef4444, #f59e0b);"></div>
+            </div>
+            <h4>Claim 1</h4>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+          <div class="claim-preview">
+            <p>"Global temperatures have not increased in the last decade"</p>
+          </div>
+        </div>
+        
+        <div class="claim-item" data-claim="2">
+          <div class="claim-header">
+            <div class="claim-indicator">
+              <div class="claim-score-bar" style="background: linear-gradient(90deg, #f59e0b, #10b981 60%);"></div>
+            </div>
+            <h4>Claim 2</h4>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+          <div class="claim-preview">
+            <p>"According to some scientists"</p>
+          </div>
+        </div>
+        
+        <div class="claim-item" data-claim="3">
+          <div class="claim-header">
+            <div class="claim-indicator">
+              <div class="claim-score-bar" style="background: linear-gradient(90deg, #10b981, #4361ee 80%);"></div>
+            </div>
+            <h4>Claim 3</h4>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+          <div class="claim-preview">
+            <p>"Climate change is not occurring"</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="claims-title">Bias Detection</h3>
+          <div class="bias-container">
+            <div class="bias-label">
+              <span>Bias Score</span>
+              <span id="bias-value">35/100</span>
+            </div>
+            <div class="bias-bar-container">
+              <div class="bias-bar" id="bias-bar"></div>
+            </div>
+            <div class="bias-description">
+              <span id="bias-description-value">Mostly False</span>
+            </div>
+          </div>
+           
+          <div class="analysis-content-bias" id="bias-explanation">
+              <p id="bias-analysis-text">Waiting for analysis...</p>
+          </div>
+           
+           <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>AI is analyzing the claim...</p>
+      </div>
+    </div>
+    
+    <!-- Claim Detail Screen -->
+    <div id="claim-detail-screen" class="screen">
+      <div class="header">
+        <button id="back-to-results-button" class="icon-button" aria-label="Go back to results">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <h2 id="claim-detail-title">Claim 1</h2>
+        <div class="mini-logo">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+            <circle cx="12" cy="12" r="10" fill="currentColor"/>
+            <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      
+      <div class="claim-detail-text">
+        <p id="claim-detail-content">"Global temperatures have not increased in the last decade"</p>
+      </div>
+      
+      <div class="score-container">
+        <div class="score-label">
+          <span>Claim Score</span>
+          <span id="claim-score-value">25/100</span>
+        </div>
+        <div class="score-bar-container">
+          <div class="score-bar" id="claim-score-bar"></div>
+        </div>
+        <div class="score-description">
+          <span id="claim-score-description">False</span>
+        </div>
+      </div>
+      
+      <div class="analysis-container">
+        <div class="analysis-item">
+          <div class="analysis-header" data-toggle="claim-analysis">
+            <h3>Claim Analysis</h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="analysis-content" id="claim-analysis">
+            <p>The claim that global temperatures have not increased in the last decade is false. According to NASA and NOAA data, the last decade (2013-2023) includes the hottest years on record.</p>
+          </div>
+        </div>
+        
+        <div class="analysis-item">
+          <div class="analysis-header" data-toggle="source-credibility">
+            <h3>Source Credibility</h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="analysis-content" id="source-credibility">
+            <p>The phrase "according to some scientists" is vague and lacks specific attribution. Reputable scientific organizations like NASA, NOAA, and the IPCC have clear data showing temperature increases.</p>
+          </div>
+        </div>
+        
+        <div class="analysis-item">
+          <div class="analysis-header" data-toggle="missing-context">
+            <h3>Missing Context</h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="analysis-content" id="missing-context">
+            <p>While there are natural fluctuations in temperature from year to year, the long-term trend shows clear warming. Cherry-picking specific time periods can be misleading without the broader context of climate change.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
