@@ -2,6 +2,7 @@
 from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
 from transformers import pipeline
 import google.generativeai as genai
+import os
 
 tokenizer = AutoTokenizer.from_pretrained("d4data/bias-detection-model")
 model = TFAutoModelForSequenceClassification.from_pretrained("d4data/bias-detection-model")
@@ -9,7 +10,7 @@ model = TFAutoModelForSequenceClassification.from_pretrained("d4data/bias-detect
 classifier = pipeline('text-classification', model=model, tokenizer=tokenizer)
 
 # API key
-john = "AIzaSyBayW14hX9zfUlM13VP--_fECh4tjQqR3M"
+john = os.getenv("GEMINI_API")
 
 def run(sentence):
     # Get bias classification result
