@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // DOM elements
   const demoButton = document.getElementById("demo-button")
   const backButton = document.getElementById("back-button")
   const backToResultsButton = document.getElementById("back-to-results-button")
@@ -13,14 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadingOverlay = document.getElementById("loading-overlay")
   const claimItems = document.querySelectorAll(".claim-item")
 
-  // Claim detail elements
   const claimDetailTitle = document.getElementById("claim-detail-title")
   const claimDetailContent = document.getElementById("claim-detail-content")
   const claimScoreValue = document.getElementById("claim-score-value")
   const claimScoreBar = document.getElementById("claim-score-bar")
   const claimScoreDescription = document.getElementById("claim-score-description")
 
-  // Claim data (for demo purposes)
   const claimData = {
     1: {
       text: "Global temperatures have not increased in the last decade",
@@ -54,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   }
 
-  // Check for dark mode preference
   if (
     localStorage.getItem("darkMode") === "true" ||
     (window.matchMedia("(prefers-color-scheme: dark)").matches && localStorage.getItem("darkMode") === null)
@@ -62,40 +58,33 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("dark")
   }
 
-  // Theme toggle
   themeToggleBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark")
     localStorage.setItem("darkMode", document.body.classList.contains("dark"))
   })
 
-  // Format timestamp
   function formatTimestamp(timestamp) {
     const now = Date.now()
     const diff = now - timestamp
 
-    // Less than a minute
     if (diff < 60000) {
       return "Just now"
     }
 
-    // Less than an hour
     if (diff < 3600000) {
       const minutes = Math.floor(diff / 60000)
       return `${minutes} minute${minutes > 1 ? "s" : ""} ago`
     }
 
-    // Less than a day
     if (diff < 86400000) {
       const hours = Math.floor(diff / 3600000)
       return `${hours} hour${hours > 1 ? "s" : ""} ago`
     }
 
-    // Format as date
     const date = new Date(timestamp)
     return date.toLocaleDateString()
   }
 
-  // Format URL
   function formatUrl(url) {
     try {
       const urlObj = new URL(url)
@@ -105,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Function to send data to the Python backend
   function sendToPythonBackend(text) {
     console.log("Sending to Python backend:", text)
 
@@ -119,19 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Received from Python backend:", data)
-        // Hide loading overlay
         loadingOverlay.style.display = "none"
 
-        //data.fact-score, fact-explanation, references
-
-        //data.score, data.label, data.analysis
-        //the stuff below is also to update facts
         updateBiasStuff(data.score, data.label, data.analysis, data.factScore, data.factExplanation, data.references)
 
-        // Update the UI with the received data
         //updateScore(data.score || 35)
 
-        // Update bias detection section
         if (data["Bias Score"] !== undefined) {
           updateBiasScore(
             data["Bias Score"],
@@ -140,25 +121,20 @@ document.addEventListener("DOMContentLoaded", () => {
           )
         }
 
-        // You can use the data.analysis object to populate the claims if needed
         console.log("Analysis:", data.analysis)
       })
       .catch((error) => {
         console.error("Error sending data to Python backend:", error)
-        // Hide loading overlay and show error or fallback to demo data
         loadingOverlay.style.display = "none"
-        updateScore(35) // Fallback score
+        updateScore(35)
 
-        // Set default bias score in case of error
         updateBiasScore(50, "Unable to analyze", "Could not connect to the bias detection service.")
       })
   }
 
-  // Check if we have selected text from context menu
   if (typeof chrome !== "undefined" && chrome.runtime) {
     chrome.runtime.sendMessage({ action: "getSelectedText" }, (response) => {
       if (response && response.text) {
-        // We have text from the context menu, show results screen
         selectedTextElement.textContent = `"${response.text}"`
 
         if (response.sourceUrl) {
@@ -172,10 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
         homeScreen.classList.remove("active")
         resultsScreen.classList.add("active")
 
-        // Show loading overlay
         loadingOverlay.style.display = "flex"
 
-        // Send the selected text to the Python backend
         sendToPythonBackend(response.text)
       }
     })
@@ -188,10 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const demoText = "Global temperatures have not increased in the last decade, according to some scientists."
     selectedTextElement.textContent = `"${demoText}"`
 
-    // Show loading for demo
     loadingOverlay.style.display = "flex"
 
-    // Send the demo text to the Python backend
     sendToPythonBackend(demoText)
   })
 
@@ -199,7 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
     resultsScreen.classList.remove("active")
     homeScreen.classList.add("active")
 
-    // Clear the selected text when going back
     if (typeof chrome !== "undefined" && chrome.runtime) {
       chrome.runtime.sendMessage({ action: "clearSelectedText" })
     }
@@ -218,29 +189,23 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Show claim detail screen
 
 
   function showClaimDetail(claimId) {
     const claim = claimData[claimId]
 
-    // Update claim detail screen content
     claimDetailTitle.textContent = `Claim ${claimId}`
     claimDetailContent.textContent = `"${claim.text}"`
 
-    // Update claim score
     updateClaimScore(claim.score)
 
-    // Update analysis content
     document.getElementById("claim-analysis").querySelector("p").textContent = claim.analysis
     document.getElementById("source-credibility").querySelector("p").textContent = claim.sourceCredibility
     document.getElementById("missing-context").querySelector("p").textContent = claim.missingContext
 
-    // Show claim detail screen
     resultsScreen.classList.remove("active")
     claimDetailScreen.classList.add("active")
 
-    // Initialize the first analysis item as open
     const analysisHeaders = claimDetailScreen.querySelectorAll(".analysis-header")
     analysisHeaders.forEach((header) => {
       header.setAttribute("aria-expanded", "false")
@@ -256,7 +221,6 @@ document.addEventListener("DOMContentLoaded", () => {
     firstContent.classList.add("active")
   }
 
-  // Toggle analysis sections
   const analysisHeaders = document.querySelectorAll(".analysis-header")
 
   analysisHeaders.forEach((header) => {
@@ -264,11 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const targetId = this.getAttribute("data-toggle")
       const content = document.getElementById(targetId)
 
-      // Toggle aria-expanded attribute
       const isExpanded = this.getAttribute("aria-expanded") === "true"
       this.setAttribute("aria-expanded", !isExpanded)
 
-      // Toggle content visibility with animation
       if (content.classList.contains("active")) {
         content.classList.remove("active")
       } else {
@@ -276,7 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
 
-    // Set initial state
     header.setAttribute("aria-expanded", "false")
   })
 
@@ -318,23 +279,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     content1.innerText = explaination
-    
-    // Format references with spacing, converting URLs to hyperlinks
+
     let formattedRefs = "No references available.";
-    
-    // Function to convert URLs to hyperlinks
+
     function convertToHyperlink(text) {
-      // URL regex pattern
       const urlPattern = /(https?:\/\/[^\s]+)/g;
-      
-      // Replace URLs with hyperlinks with light blue color
+
       return text.replace(urlPattern, match => {
         return `<a href="${match}" target="_blank" rel="noopener noreferrer" style="color:rgb(167, 201, 255);">${match}</a>`;
       });
     }
     
     if (references) {
-      // Check if references is an array
       if (Array.isArray(references)) {
         formattedRefs = references
           .filter(ref => ref && ref.trim())
@@ -344,7 +300,6 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .join('');
       } 
-      // Check if references is a string
       else if (typeof references === 'string') {
         const refsArray = references.split(/\n+/);
         formattedRefs = refsArray
@@ -355,7 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .join('');
       }
-      // If references is an object, try to convert to string
       else if (typeof references === 'object') {
         try {
           const refsStr = JSON.stringify(references);
@@ -366,10 +320,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     
-    // Use innerHTML instead of innerText to render the HTML links
     content2.innerHTML = formattedRefs;
   
-    // Update color based on score
     if (score < 33) {
       scoreBar.style.background = "linear-gradient(90deg, #ef4444, #f59e0b)"
       scoreDescription.textContent = label
@@ -381,13 +333,11 @@ document.addEventListener("DOMContentLoaded", () => {
       scoreDescription.textContent = label
     }
   
-    // Animate the score bar
     scoreBar.style.width = "0%"
     setTimeout(() => {
       scoreBar.style.width = `${score}%`
     }, 100)
     
-    // Animate the fact bar
     factBar.style.width = "0%"
     setTimeout(() => {
       factBar.style.width = `${factscore}%`
@@ -395,7 +345,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   //end of stuff
 
-  // Function to update main score
   function updateScore(score) {
     const scoreValue = document.getElementById("score-value")
     const scoreBar = document.getElementById("score-bar")
@@ -403,7 +352,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     scoreValue.textContent = `${score}/100`
 
-    // Update color based on score
     if (score < 33) {
       scoreBar.style.background = "linear-gradient(90deg, #ef4444, #f59e0b)"
       scoreDescription.textContent = "False"
@@ -415,18 +363,15 @@ document.addEventListener("DOMContentLoaded", () => {
       scoreDescription.textContent = "Mostly True"
     }
 
-    // Animate the score bar
     scoreBar.style.width = "0%"
     setTimeout(() => {
       scoreBar.style.width = `${score}%`
     }, 100)
   }
 
-  // Function to update claim score
   function updateClaimScore(score) {
     claimScoreValue.textContent = `${score}/100`
 
-    // Update color based on score
     if (score < 33) {
       claimScoreBar.style.background = "linear-gradient(90deg, #ef4444, #f59e0b)"
       claimScoreDescription.textContent = "False"
@@ -438,14 +383,12 @@ document.addEventListener("DOMContentLoaded", () => {
       claimScoreDescription.textContent = "Mostly True"
     }
 
-    // Animate the score bar
     claimScoreBar.style.width = "0%"
     setTimeout(() => {
       claimScoreBar.style.width = `${score}%`
     }, 100)
   }
 
-  // Function to update bias score
   function updateBiasScore(score, verdict, explanation) {
     const biasScoreValue = document.getElementById("bias-score-value")
     const biasScoreBar = document.getElementById("bias-score-bar")
@@ -456,7 +399,6 @@ document.addEventListener("DOMContentLoaded", () => {
     biasScoreVerdict.textContent = verdict
     biasScoreExplanation.textContent = explanation
 
-    // Update color based on score
     if (score < 33) {
       biasScoreBar.style.background = "linear-gradient(90deg, #10b981, #4361ee)"
     } else if (score < 66) {
@@ -465,7 +407,6 @@ document.addEventListener("DOMContentLoaded", () => {
       biasScoreBar.style.background = "linear-gradient(90deg, #ef4444, #f59e0b)"
     }
 
-    // Animate the score bar
     biasScoreBar.style.width = "0%"
     setTimeout(() => {
       biasScoreBar.style.width = `${score}%`

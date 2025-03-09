@@ -14,16 +14,13 @@ classifier = pipeline('text-classification', model=model, tokenizer=tokenizer)
 john = os.getenv("GEMINI_API")
 
 def run(sentence):
-    # Get bias classification result
     result = classifier(sentence)
     label = result[0].get('label')
     score = result[0].get('score')
 
-    # Initialize the Gemini client
     genai.configure(api_key=john)
     client = genai.GenerativeModel("gemini-2.0-flash")
     
-    # Generate the explanation
     prompt = f"""
     Sentence: {sentence}
     Verdict: {label}
@@ -43,7 +40,6 @@ def run(sentence):
     response = client.generate_content(prompt)
     analysis_text = response.text
 
-    # Return results as a dictionary that can be used by Flask
     return {
         "output": sentence[:50] + "..." if len(sentence) > 50 else sentence,
         "label": label,
