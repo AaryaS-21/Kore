@@ -287,28 +287,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const scoreBar = document.getElementById("bias-bar")
     const factBar = document.getElementById("score-bar")
     const scoreDescription = document.getElementById("bias-description-value")
-
+  
     const factDescription = document.getElementById("score-description")
-
+  
     const content1 = document.getElementById("claim-analysis")
     const content2 = document.getElementById("claim-analysis-1")
-
+  
     const enterBiasDescription = document.getElementById("bias-analysis-text")
-
-    //console.log(analysis)
-
+  
     const formattedAnalysis = analysis.replace(/\* /g, "•")
     const formattedAnalysis2 = formattedAnalysis.replace(/\./g, "\n")
     enterBiasDescription.innerText = formattedAnalysis2
-
+  
     score = Math.round(score)
-
     scoreValue.textContent = `${score}/100`
-
+  
     factscore = factscore * 10
     factscore = Math.round(factscore)
     scorevalforfact.textContent = `${factscore}/100`
-
+  
     if (factscore < 33) {
       factBar.style.background = "linear-gradient(90deg, #ef4444, #f59e0b)"
       factDescription.textContent = "Mostly False"
@@ -319,11 +316,41 @@ document.addEventListener("DOMContentLoaded", () => {
       factBar.style.background = "linear-gradient(90deg, #10b981, #4361ee " + factscore + "%)"
       factDescription.textContent = "Mostly True"
     }
-
-
+  
     content1.innerText = explaination
-    content2.innerText = references
-
+    
+    // Format references with numbers and spacing, handling different data types
+    let formattedRefs = "No references available.";
+    
+    if (references) {
+      // Check if references is an array
+      if (Array.isArray(references)) {
+        formattedRefs = references
+          .filter(ref => ref && ref.trim())
+          .map((ref, index) => `${index + 1}. ${ref.trim()}`)
+          .join('\n\n');
+      } 
+      // Check if references is a string
+      else if (typeof references === 'string') {
+        const refsArray = references.split(/\n+/);
+        formattedRefs = refsArray
+          .filter(ref => ref && ref.trim())
+          .map((ref, index) => `${index + 1}. ${ref.trim()}`)
+          .join('\n\n');
+      }
+      // If references is an object, try to convert to string
+      else if (typeof references === 'object') {
+        try {
+          const refsStr = JSON.stringify(references);
+          formattedRefs = `1. ${refsStr}`;
+        } catch (e) {
+          console.error("Could not format references object:", e);
+        }
+      }
+    }
+    
+    content2.innerText = formattedRefs;
+  
     // Update color based on score
     if (score < 33) {
       scoreBar.style.background = "linear-gradient(90deg, #ef4444, #f59e0b)"
@@ -335,11 +362,16 @@ document.addEventListener("DOMContentLoaded", () => {
       scoreBar.style.background = "linear-gradient(90deg, #10b981, #4361ee " + score + "%)"
       scoreDescription.textContent = label
     }
-
+  
     // Animate the score bar
     scoreBar.style.width = "0%"
     setTimeout(() => {
       scoreBar.style.width = `${score}%`
+    }, 100)
+    
+    // Animate the fact bar
+    factBar.style.width = "0%"
+    setTimeout(() => {
       factBar.style.width = `${factscore}%`
     }, 100)
   }
