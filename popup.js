@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     content1.innerText = explaination
     
-    // Format references with numbers and spacing, converting URLs to hyperlinks
+    // Format references with spacing, converting URLs to hyperlinks
     let formattedRefs = "No references available.";
     
     // Function to convert URLs to hyperlinks
@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // Replace URLs with hyperlinks with light blue color
       return text.replace(urlPattern, match => {
-        return `<a href="${match}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6;">${match}</a>`;
+        return `<a href="${match}" target="_blank" rel="noopener noreferrer" style="color:rgb(167, 201, 255);">${match}</a>`;
       });
     }
     
@@ -338,9 +338,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (Array.isArray(references)) {
         formattedRefs = references
           .filter(ref => ref && ref.trim())
-          .map((ref, index) => {
+          .map(ref => {
             const linkified = convertToHyperlink(ref.trim());
-            return `<p><strong>${index + 1}.</strong> ${linkified}</p>`;
+            return `<p style="margin-bottom: 20px;">${linkified}</p>`;
           })
           .join('');
       } 
@@ -349,9 +349,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const refsArray = references.split(/\n+/);
         formattedRefs = refsArray
           .filter(ref => ref && ref.trim())
-          .map((ref, index) => {
+          .map(ref => {
             const linkified = convertToHyperlink(ref.trim());
-            return `<p><strong>${index + 1}.</strong> ${linkified}</p>`;
+            return `<p style="margin-bottom: 20px;">${linkified}</p>`;
           })
           .join('');
       }
@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
       else if (typeof references === 'object') {
         try {
           const refsStr = JSON.stringify(references);
-          formattedRefs = `<p><strong>1.</strong> ${convertToHyperlink(refsStr)}</p>`;
+          formattedRefs = `<p style="margin-bottom: 20px;">${convertToHyperlink(refsStr)}</p>`;
         } catch (e) {
           console.error("Could not format references object:", e);
         }
