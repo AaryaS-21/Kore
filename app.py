@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import bias
+# from search_actions import search
 
 app = Flask(__name__)
 CORS(app)  # Allow requests from the extension
@@ -15,6 +16,8 @@ def process_data():
         
         # Process the text using the bias detection module
         result = bias.run(selected_text)
+        # factCheck = search(selected_text)
+        # print(factCheck)
         print(f"res: {result}")
         
         # Format the response

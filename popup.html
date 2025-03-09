@@ -26,6 +26,7 @@
       </div>
       
       <div class="centered-logo">
+        <!---->
         <div class="logo logo-large">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
             <circle cx="12" cy="12" r="10" fill="currentColor"/>
@@ -112,52 +113,32 @@
       </div>
       
       <div class="claims-container">
-        <h3 class="claims-title">Claims Identified</h3>
+        <h3 class="claims-title">Fact Check</h3>
         
-        <div class="claim-item" data-claim="1">
-          <div class="claim-header">
-            <div class="claim-indicator">
-              <div class="claim-score-bar" style="background: linear-gradient(90deg, #ef4444, #f59e0b);"></div>
-            </div>
-            <h4>Claim 1</h4>
+        <div class="analysis-item">
+          <div class="analysis-header" data-toggle="claim-analysis">
+            <h3>Report</h3>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
-              <path d="m9 18 6-6-6-6"/>
+              <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
-          <div class="claim-preview">
-            <p>"Global temperatures have not increased in the last decade"</p>
+          <div class="analysis-content" id="claim-analysis">
+            <p>The claim that global temperatures have not increased in the last decade is false. According to NASA and NOAA data, the last decade (2013-2023) includes the hottest years on record.</p>
           </div>
         </div>
-        
-        <div class="claim-item" data-claim="2">
-          <div class="claim-header">
-            <div class="claim-indicator">
-              <div class="claim-score-bar" style="background: linear-gradient(90deg, #f59e0b, #10b981 60%);"></div>
-            </div>
-            <h4>Claim 2</h4>
+
+        <div class="analysis-item">
+          <div class="analysis-header" data-toggle="claim-analysis-1">
+            <h3>References</h3>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
-              <path d="m9 18 6-6-6-6"/>
+              <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
-          <div class="claim-preview">
-            <p>"According to some scientists"</p>
+          <div class="analysis-content" id="claim-analysis-1">
+            <p>hello claim that global temperatures have not increased in the last decade is false. According to NASA and NOAA data, the last decade (2013-2023) includes the hottest years on record.</p>
           </div>
         </div>
-        
-        <div class="claim-item" data-claim="3">
-          <div class="claim-header">
-            <div class="claim-indicator">
-              <div class="claim-score-bar" style="background: linear-gradient(90deg, #10b981, #4361ee 80%);"></div>
-            </div>
-            <h4>Claim 3</h4>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron">
-              <path d="m9 18 6-6-6-6"/>
-            </svg>
-          </div>
-          <div class="claim-preview">
-            <p>"Climate change is not occurring"</p>
-          </div>
-        </div>
+
       </div>
 
       <h3 class="claims-title">Bias Detection</h3>

@@ -2,6 +2,7 @@
 from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
 from transformers import pipeline
 import google.generativeai as genai
+# from google import genai
 import os
 
 tokenizer = AutoTokenizer.from_pretrained("d4data/bias-detection-model")

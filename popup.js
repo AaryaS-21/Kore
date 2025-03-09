@@ -216,6 +216,8 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   // Show claim detail screen
+
+
   function showClaimDetail(claimId) {
     const claim = claimData[claimId]
 
