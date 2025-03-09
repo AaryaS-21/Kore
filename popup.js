@@ -319,37 +319,55 @@ document.addEventListener("DOMContentLoaded", () => {
   
     content1.innerText = explaination
     
-    // Format references with numbers and spacing, handling different data types
+    // Format references with numbers and spacing, converting URLs to hyperlinks
     let formattedRefs = "No references available.";
+    
+    // Function to convert URLs to hyperlinks
+    function convertToHyperlink(text) {
+      // URL regex pattern
+      const urlPattern = /(https?:\/\/[^\s]+)/g;
+      
+      // Replace URLs with hyperlinks with light blue color
+      return text.replace(urlPattern, match => {
+        return `<a href="${match}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6;">${match}</a>`;
+      });
+    }
     
     if (references) {
       // Check if references is an array
       if (Array.isArray(references)) {
         formattedRefs = references
           .filter(ref => ref && ref.trim())
-          .map((ref, index) => `${index + 1}. ${ref.trim()}`)
-          .join('\n\n');
+          .map((ref, index) => {
+            const linkified = convertToHyperlink(ref.trim());
+            return `<p><strong>${index + 1}.</strong> ${linkified}</p>`;
+          })
+          .join('');
       } 
       // Check if references is a string
       else if (typeof references === 'string') {
         const refsArray = references.split(/\n+/);
         formattedRefs = refsArray
           .filter(ref => ref && ref.trim())
-          .map((ref, index) => `${index + 1}. ${ref.trim()}`)
-          .join('\n\n');
+          .map((ref, index) => {
+            const linkified = convertToHyperlink(ref.trim());
+            return `<p><strong>${index + 1}.</strong> ${linkified}</p>`;
+          })
+          .join('');
       }
       // If references is an object, try to convert to string
       else if (typeof references === 'object') {
         try {
           const refsStr = JSON.stringify(references);
-          formattedRefs = `1. ${refsStr}`;
+          formattedRefs = `<p><strong>1.</strong> ${convertToHyperlink(refsStr)}</p>`;
         } catch (e) {
           console.error("Could not format references object:", e);
         }
       }
     }
     
-    content2.innerText = formattedRefs;
+    // Use innerHTML instead of innerText to render the HTML links
+    content2.innerHTML = formattedRefs;
   
     // Update color based on score
     if (score < 33) {
